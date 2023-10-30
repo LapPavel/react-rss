@@ -1,4 +1,12 @@
-export interface Vehicle {
+export interface FormProps {
+  returnResult: (data: StarshipsResponse) => void;
+}
+
+export interface ResultProps {
+  result: StarshipsResponse | null;
+}
+
+export interface Starships {
   name: string;
   model: string;
   manufacturer: string;
@@ -9,17 +17,18 @@ export interface Vehicle {
   passengers: string;
   cargo_capacity: string;
   consumables: string;
-  vehicle_class: string;
+  hyperdrive_rating: string;
+  MGLT: string;
+  starship_class: string;
   pilots: string[];
-  films: string[];
   created: string;
   edited: string;
   url: string;
 }
 
-export interface VehicleResponse {
+export interface StarshipsResponse {
   count: number;
-  next: string | null;
-  previous: string | null;
-  results: Vehicle[];
+  next?: string;
+  previous?: string;
+  results: Starships[];
 }

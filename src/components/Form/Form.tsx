@@ -1,8 +1,14 @@
 import React from 'react';
-import { APIservice } from './APIservice';
+import { APIservice } from '../APIservice/APIservice';
+import { FormProps } from '../../interface/interface';
 
-export default class Form extends React.Component {
+export default class Form extends React.Component<FormProps> {
   state = { value: localStorage.getItem('search') || '' };
+
+  async componentDidMount() {
+    const data = await APIservice.getData(this.state.value, 1);
+    this.props.returnResult(data);
+  }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ value: event.target.value });
@@ -10,8 +16,9 @@ export default class Form extends React.Component {
 
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(await APIservice.getData(this.state.value, 1));
+    const data = await APIservice.getData(this.state.value, 1);
     localStorage.setItem('search', this.state.value);
+    this.props.returnResult(data);
   };
 
   render() {

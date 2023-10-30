@@ -1,4 +1,4 @@
-import { VehicleResponse } from './interface/interface';
+import { StarshipsResponse } from '../../interface/interface';
 
 export class APIservice {
   static host = 'https://swapi.dev/api/starships';
@@ -6,12 +6,12 @@ export class APIservice {
   static async getData(
     request: string,
     page: number
-  ): Promise<VehicleResponse> {
+  ): Promise<StarshipsResponse> {
     try {
       const response = await fetch(
         `${this.host}?search=${request}&page=${page}`
       );
-      const result: VehicleResponse = await response.json();
+      const result: StarshipsResponse = await response.json();
       return result;
     } catch (error) {
       throw error;
