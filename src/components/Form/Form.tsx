@@ -5,20 +5,27 @@ import { FormProps } from '../../interface/interface';
 export default class Form extends React.Component<FormProps> {
   state = { value: localStorage.getItem('search') || '' };
 
-  async componentDidMount() {
+  async requestData(): Promise<void> {
     const data = await APIservice.getData(this.state.value, 1);
     this.props.returnResult(data);
+    this.props.loadStatusCHange(false);
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  componentDidMount(): void {
+    this.requestData();
+  }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ value: event.target.value });
   };
 
-  handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-    const data = await APIservice.getData(this.state.value, 1);
+    this.props.loadStatusCHange(true);
     localStorage.setItem('search', this.state.value);
-    this.props.returnResult(data);
+    this.requestData();
   };
 
   render() {

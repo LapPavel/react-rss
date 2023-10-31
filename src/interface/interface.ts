@@ -1,9 +1,11 @@
 export interface FormProps {
+  loadStatusCHange: (status: boolean) => void;
   returnResult: (data: StarshipsResponse) => void;
 }
 
 export interface ResultProps {
   result: StarshipsResponse | null;
+  isLoad: boolean;
 }
 
 export interface Starships {

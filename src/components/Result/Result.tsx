@@ -4,6 +4,9 @@ import { ResultProps } from '../../interface/interface';
 export default class Result extends React.Component<ResultProps> {
   render() {
     const data = this.props.result?.results;
+    if (this.props.isLoad) {
+      return <div>Data loading...</div>;
+    }
     if (data) {
       return (
         <div className="results">
@@ -16,6 +19,5 @@ export default class Result extends React.Component<ResultProps> {
         </div>
       );
     }
-    return <div>Data loading...</div>;
   }
 }
