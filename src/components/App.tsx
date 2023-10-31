@@ -7,6 +7,7 @@ export default class App extends React.Component {
   state = {
     result: null,
     isLoad: true,
+    testError: false,
   };
 
   returnResult = (data: StarshipsResponse): void => {
@@ -17,9 +18,17 @@ export default class App extends React.Component {
     this.setState({ isLoad: status });
   };
 
+  toggleTestError = (): void => {
+    this.setState({ testError: !this.state.testError });
+  };
+
   render() {
+    if (this.state.testError) {
+      throw new Error('Test error');
+    }
     return (
       <>
+        <button onClick={this.toggleTestError}>Do crime!</button>
         <Form
           loadStatusCHange={this.loadStatusCHange}
           returnResult={this.returnResult}
