@@ -2,15 +2,17 @@ import React from 'react';
 import Form from './Form/Form';
 import Result from './Result/Result';
 import { StarshipsResponse } from '../interface/interface';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import './App.css';
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     result: null,
     isLoad: true,
     testError: false,
   };
 
-  returnResult = (data: StarshipsResponse): void => {
+  returnResult = (data: StarshipsResponse | null): void => {
     this.setState({ result: data });
   };
 
@@ -28,13 +30,29 @@ export default class App extends React.Component {
     }
     return (
       <>
-        <button onClick={this.toggleTestError}>Do crime!</button>
-        <Form
-          loadStatusCHange={this.loadStatusCHange}
-          returnResult={this.returnResult}
-        />
-        <Result result={this.state.result} isLoad={this.state.isLoad} />
+        <header className="header">
+          <button className="button" onClick={this.toggleTestError}>
+            Do a crime!
+          </button>
+          <Form
+            loadStatusCHange={this.loadStatusCHange}
+            returnResult={this.returnResult}
+          />
+        </header>
+        <main className="main">
+          <Result
+            result={this.state.result}
+            isLoad={this.state.isLoad}
+            toggleTestError={this.toggleTestError}
+          />
+        </main>
       </>
     );
   }
 }
+
+export default () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);

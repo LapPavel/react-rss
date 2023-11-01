@@ -1,6 +1,7 @@
 import React from 'react';
 import { APIservice } from '../APIservice/APIservice';
 import { FormProps } from '../../interface/interface';
+import './Form.css';
 
 export default class Form extends React.Component<FormProps> {
   state = { value: localStorage.getItem('search') || '' };
@@ -30,17 +31,18 @@ export default class Form extends React.Component<FormProps> {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="search_form" onSubmit={this.handleSubmit}>
         <label>
-          Enter starship name:{''}
+          Enter starship name:{' '}
           <input
             type="text"
             name="search"
+            className="search_input"
             value={this.state.value}
             onChange={this.handleChange}
           />
         </label>
-        <input type="submit" value="Search" />
+        <input className="button search_button" type="submit" value="Search" />
       </form>
     );
   }

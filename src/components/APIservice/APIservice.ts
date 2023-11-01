@@ -6,15 +6,15 @@ export class APIservice {
   static async getData(
     request: string,
     page: number
-  ): Promise<StarshipsResponse> {
+  ): Promise<StarshipsResponse | null> {
     try {
       const response = await fetch(
         `${this.host}?search=${request}&page=${page}`
       );
       const result: StarshipsResponse = await response.json();
       return result;
-    } catch (error) {
-      throw error;
+    } catch {
+      return null;
     }
   }
 }
