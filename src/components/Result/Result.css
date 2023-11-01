@@ -26,8 +26,9 @@
 .load-wave {
   position: absolute;
   width: 100%;
-  aspect-ratio: 1.5;
+  height: 100cqh;
   display: flex;
+  justify-content: center;
   align-items: center;
   z-index: 40;
 }
@@ -35,7 +36,6 @@
 .wave {
   display: flex;
   justify-content: center;
-  width: 100%;
   gap: 10px;
   z-index: 1;
   --delay: 1s;
