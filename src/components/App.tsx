@@ -1,22 +1,9 @@
-import { useState, createContext } from 'react';
+import { useState } from 'react';
 import Form from './Form/Form';
 import Result from './Result/Result';
 import { StarshipResponse } from '../interface/interface';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import './App.css';
-
-export const AppContext = createContext({
-  result: null as StarshipResponse | null,
-  isLoad: true,
-  testError: false,
-  returnResult: (data: StarshipResponse | null) => {
-    data;
-  },
-  loadStatusChange: (status: boolean) => {
-    status;
-  },
-  toggleTestError: () => {},
-});
 
 function App() {
   const [result, setResult] = useState<StarshipResponse | null>(null);
@@ -40,26 +27,21 @@ function App() {
   }
 
   return (
-    <AppContext.Provider
-      value={{
-        result,
-        isLoad,
-        testError,
-        returnResult,
-        loadStatusChange,
-        toggleTestError,
-      }}
-    >
+    <>
       <header className="header">
         <button className="button" onClick={toggleTestError}>
           Do a crime!
         </button>
-        <Form />
+        <Form loadStatusChange={loadStatusChange} returnResult={returnResult} />
       </header>
       <main className="main">
-        <Result />
+        <Result
+          result={result}
+          isLoad={isLoad}
+          toggleTestError={toggleTestError}
+        />
       </main>
-    </AppContext.Provider>
+    </>
   );
 }
 

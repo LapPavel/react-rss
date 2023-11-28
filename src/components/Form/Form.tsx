@@ -1,13 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { APIservice } from '../APIservice/APIservice';
-import { AppContext } from '../App';
+import { FormProps } from '../../interface/interface';
 import './Form.css';
 
-export default function Form() {
+export default function Form({ loadStatusChange, returnResult }: FormProps) {
   const [value, setValue] = React.useState(
     localStorage.getItem('search') || ''
   );
-  const { returnResult, loadStatusChange } = useContext(AppContext);
 
   async function requestData(): Promise<void> {
     const data = await APIservice.getData(value, 1);

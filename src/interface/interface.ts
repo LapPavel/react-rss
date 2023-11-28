@@ -1,3 +1,14 @@
+export interface FormProps {
+  loadStatusChange: (status: boolean) => void;
+  returnResult: (data: StarshipResponse | null) => void;
+}
+
+export interface ResultProps {
+  result: StarshipResponse | null;
+  isLoad: boolean;
+  toggleTestError: () => void;
+}
+
 export interface Starship {
   name: string;
   model: string;

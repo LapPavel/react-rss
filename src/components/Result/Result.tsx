@@ -1,9 +1,11 @@
-import { useContext } from 'react';
-import { AppContext } from '../App';
+import { ResultProps } from '../../interface/interface';
 import './Result.css';
 
-export default function Result() {
-  const { result, isLoad, toggleTestError } = useContext(AppContext);
+export default function Result({
+  result,
+  isLoad,
+  toggleTestError,
+}: ResultProps) {
   const data = result?.results;
 
   if (isLoad) {
