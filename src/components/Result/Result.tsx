@@ -1,45 +1,45 @@
-import React from 'react';
-import { ResultProps } from '../../interface/interface';
+import { useContext } from 'react';
+import { AppContext } from '../App';
 import './Result.css';
 
-export default class Result extends React.Component<ResultProps> {
-  render() {
-    const data = this.props.result?.results;
-    if (this.props.isLoad) {
-      return (
-        <div className="load-wave">
-          <div className="wave">
-            <div className="wave_item"></div>
-            <div className="wave_item"></div>
-            <div className="wave_item"></div>
-            <div className="wave_item"></div>
-            <div className="wave_item"></div>
-          </div>
+export default function Result() {
+  const { result, isLoad, toggleTestError } = useContext(AppContext);
+  const data = result?.results;
+
+  if (isLoad) {
+    return (
+      <div className="load-wave">
+        <div className="wave">
+          <div className="wave_item"></div>
+          <div className="wave_item"></div>
+          <div className="wave_item"></div>
+          <div className="wave_item"></div>
+          <div className="wave_item"></div>
         </div>
-      );
+      </div>
+    );
+  }
+  if (data) {
+    if (!data.length) {
+      return <p>No results found</p>;
     }
-    if (data) {
-      if (!data.length) {
-        return <p>No results found</p>;
-      }
-      return (
-        <ul className="search_results">
-          {data.map((item, id) => (
-            <li className="search_result" key={id}>
-              <h3 className="result_name">{item.name}</h3>
-              <p className="result_description">model: {item.model}</p>
-              <p className="result_description">class: {item.starship_class}</p>
-              <p className="result_description">length: {item.length}</p>
-              <p className="result_description">
-                atmosphering speed: {item.max_atmosphering_speed}
-              </p>
-              <p className="result_description">crew: {item.crew}</p>
-            </li>
-          ))}
-        </ul>
-      );
-    } else {
-      this.props.toggleTestError();
-    }
+    return (
+      <ul className="search_results">
+        {data.map((item, id) => (
+          <li className="search_result" key={id}>
+            <h3 className="result_name">{item.name}</h3>
+            <p className="result_description">model: {item.model}</p>
+            <p className="result_description">class: {item.starship_class}</p>
+            <p className="result_description">length: {item.length}</p>
+            <p className="result_description">
+              atmosphering speed: {item.max_atmosphering_speed}
+            </p>
+            <p className="result_description">crew: {item.crew}</p>
+          </li>
+        ))}
+      </ul>
+    );
+  } else {
+    toggleTestError();
   }
 }

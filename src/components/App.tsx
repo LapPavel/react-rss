@@ -1,54 +1,66 @@
-import React from 'react';
+import { useState, createContext } from 'react';
 import Form from './Form/Form';
 import Result from './Result/Result';
-import { StarshipsResponse } from '../interface/interface';
+import { StarshipResponse } from '../interface/interface';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import './App.css';
 
-class App extends React.Component {
-  state = {
-    result: null,
-    isLoad: true,
-    testError: false,
-  };
+export const AppContext = createContext({
+  result: null as StarshipResponse | null,
+  isLoad: true,
+  testError: false,
+  returnResult: (data: StarshipResponse | null) => {
+    data;
+  },
+  loadStatusChange: (status: boolean) => {
+    status;
+  },
+  toggleTestError: () => {},
+});
 
-  returnResult = (data: StarshipsResponse | null): void => {
-    this.setState({ result: data });
-  };
+function App() {
+  const [result, setResult] = useState<StarshipResponse | null>(null);
+  const [isLoad, setIsLoad] = useState(true);
+  const [testError, setTestError] = useState(false);
 
-  loadStatusCHange = (status: boolean): void => {
-    this.setState({ isLoad: status });
-  };
-
-  toggleTestError = (): void => {
-    this.setState({ testError: !this.state.testError });
-  };
-
-  render() {
-    if (this.state.testError) {
-      throw new Error('Test error');
-    }
-    return (
-      <>
-        <header className="header">
-          <button className="button" onClick={this.toggleTestError}>
-            Do a crime!
-          </button>
-          <Form
-            loadStatusCHange={this.loadStatusCHange}
-            returnResult={this.returnResult}
-          />
-        </header>
-        <main className="main">
-          <Result
-            result={this.state.result}
-            isLoad={this.state.isLoad}
-            toggleTestError={this.toggleTestError}
-          />
-        </main>
-      </>
-    );
+  function returnResult(data: StarshipResponse | null): void {
+    setResult(data);
   }
+
+  function loadStatusChange(status: boolean): void {
+    setIsLoad(status);
+  }
+
+  function toggleTestError(): void {
+    setTestError(!testError);
+  }
+
+  if (testError) {
+    throw new Error('Test error');
+  }
+
+  return (
+    <AppContext.Provider
+      value={{
+        result,
+        isLoad,
+        testError,
+        returnResult,
+        loadStatusChange,
+        toggleTestError,
+      }}
+    >
+      <header className="header">
+        <button className="button" onClick={toggleTestError}>
+          Do a crime!
+        </button>
+        <Form />
+      </header>
+      <main className="main">
+        <Result />
+      </main>
+    </AppContext.Provider>
+  );
 }
 
 export default () => (

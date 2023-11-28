@@ -1,49 +1,51 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { APIservice } from '../APIservice/APIservice';
-import { FormProps } from '../../interface/interface';
+import { AppContext } from '../App';
 import './Form.css';
 
-export default class Form extends React.Component<FormProps> {
-  state = { value: localStorage.getItem('search') || '' };
+export default function Form() {
+  const [value, setValue] = React.useState(
+    localStorage.getItem('search') || ''
+  );
+  const { returnResult, loadStatusChange } = useContext(AppContext);
 
-  async requestData(): Promise<void> {
-    const data = await APIservice.getData(this.state.value, 1);
-    this.props.returnResult(data);
-    this.props.loadStatusCHange(false);
+  async function requestData(): Promise<void> {
+    const data = await APIservice.getData(value, 1);
+    returnResult(data);
+    loadStatusChange(false);
   }
 
-  componentDidMount(): void {
-    this.requestData();
+  useEffect(() => {
+    requestData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    setValue(event.target.value);
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ value: event.target.value });
-  };
-
-  handleSubmit = async (
+  async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  ): Promise<void> {
     event.preventDefault();
-    this.props.loadStatusCHange(true);
-    localStorage.setItem('search', this.state.value);
-    this.requestData();
-  };
-
-  render() {
-    return (
-      <form className="search_form" onSubmit={this.handleSubmit}>
-        <label>
-          Enter starship name:{' '}
-          <input
-            type="text"
-            name="search"
-            className="search_input"
-            value={this.state.value}
-            onChange={this.handleChange}
-          />
-        </label>
-        <input className="button search_button" type="submit" value="Search" />
-      </form>
-    );
+    loadStatusChange(true);
+    localStorage.setItem('search', value);
+    await requestData();
   }
+
+  return (
+    <form className="search_form" onSubmit={handleSubmit}>
+      <label>
+        Enter starship name:{' '}
+        <input
+          type="text"
+          name="search"
+          className="search_input"
+          value={value}
+          onChange={handleChange}
+        />
+      </label>
+      <input className="button search_button" type="submit" value="Search" />
+    </form>
+  );
 }
