@@ -20,12 +20,12 @@ export default function Result({
     );
   }
   if (result) {
-    if (!result.length) {
+    if (result.data.length === 0) {
       return <p>No results found</p>;
     }
     return (
       <ul className="search_results">
-        {result.map((item, id) => (
+        {result.data.map((item, id) => (
           <li className="search_result" key={id}>
             <h3 className="result_name">{item.name}</h3>
             <p className="result_description">model: {item.model}</p>

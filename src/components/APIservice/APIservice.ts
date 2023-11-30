@@ -1,4 +1,8 @@
-import { Starship, StarshipResponse } from '../../interface/interface';
+import {
+  Starship,
+  StarshipResponse,
+  DataResponse,
+} from '../../interface/interface';
 
 export class APIservice {
   static host = 'https://swapi.dev/api/starships';
@@ -8,7 +12,7 @@ export class APIservice {
     qtyResult: number,
     page: number,
     totalQty: number = 10
-  ): Promise<Starship[]> {
+  ): Promise<DataResponse> {
     const qtyStepResult = 10;
     try {
       const response = await fetch(
@@ -19,15 +23,20 @@ export class APIservice {
       data.push(...result?.results);
       if (totalQty < qtyResult && result.count > totalQty) {
         data.push(
-          ...(await this.getData(
-            request,
-            qtyResult,
-            page + 1,
-            totalQty + qtyStepResult
-          ))
+          ...(
+            await this.getData(
+              request,
+              qtyResult,
+              page + 1,
+              totalQty + qtyStepResult
+            )
+          ).data
         );
       }
-      return data;
+      return {
+        data,
+        count: result.count,
+      };
     } catch {
       throw Error;
     }
