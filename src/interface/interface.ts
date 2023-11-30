@@ -1,10 +1,10 @@
 export interface FormProps {
   loadStatusChange: (status: boolean) => void;
-  returnResult: (data: StarshipResponse | null) => void;
+  returnResult: (data: Starship[] | null) => void;
 }
 
 export interface ResultProps {
-  result: StarshipResponse | null;
+  result: Starship[] | null;
   isLoad: boolean;
   toggleTestError: () => void;
 }

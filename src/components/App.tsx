@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import Form from './Form/Form';
 import Result from './Result/Result';
-import { StarshipResponse } from '../interface/interface';
+import { Starship } from '../interface/interface';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import './App.css';
 
 function App() {
-  const [result, setResult] = useState<StarshipResponse | null>(null);
+  const [result, setResult] = useState<Starship[] | null>(null);
   const [isLoad, setIsLoad] = useState(true);
   const [testError, setTestError] = useState(false);
 
-  function returnResult(data: StarshipResponse | null): void {
+  function returnResult(data: Starship[] | null): void {
     setResult(data);
   }
 

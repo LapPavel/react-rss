@@ -6,8 +6,6 @@ export default function Result({
   isLoad,
   toggleTestError,
 }: ResultProps) {
-  const data = result?.results;
-
   if (isLoad) {
     return (
       <div className="load-wave">
@@ -21,13 +19,13 @@ export default function Result({
       </div>
     );
   }
-  if (data) {
-    if (!data.length) {
+  if (result) {
+    if (!result.length) {
       return <p>No results found</p>;
     }
     return (
       <ul className="search_results">
-        {data.map((item, id) => (
+        {result.map((item, id) => (
           <li className="search_result" key={id}>
             <h3 className="result_name">{item.name}</h3>
             <p className="result_description">model: {item.model}</p>

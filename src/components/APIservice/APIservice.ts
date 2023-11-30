@@ -1,20 +1,35 @@
-import { StarshipResponse } from '../../interface/interface';
+import { Starship, StarshipResponse } from '../../interface/interface';
 
 export class APIservice {
   static host = 'https://swapi.dev/api/starships';
 
   static async getData(
     request: string,
-    page: number
-  ): Promise<StarshipResponse | null> {
+    qtyResult: number,
+    page: number,
+    totalQty: number = 10
+  ): Promise<Starship[]> {
+    const qtyStepResult = 10;
     try {
       const response = await fetch(
         `${this.host}?search=${request}&page=${page}`
       );
       const result: StarshipResponse = await response.json();
-      return result;
+      const data: Starship[] = [];
+      data.push(...result?.results);
+      if (totalQty < qtyResult && result.count > totalQty) {
+        data.push(
+          ...(await this.getData(
+            request,
+            qtyResult,
+            page + 1,
+            totalQty + qtyStepResult
+          ))
+        );
+      }
+      return data;
     } catch {
-      return null;
+      throw Error;
     }
   }
 }
