@@ -1,22 +1,15 @@
 import { useState } from 'react';
+import { Starship } from '../interface/interface';
 import Form from './Form/Form';
 import Result from './Result/Result';
-import { DataResponse } from '../interface/interface';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import './App.css';
 
 function App() {
-  const [result, setResult] = useState<DataResponse | null>(null);
-  const [isLoad, setIsLoad] = useState(true);
+  const [result, setResult] = useState<Starship[] | null>(null);
+  const [isLoad, setLoadStatus] = useState(true);
   const [testError, setTestError] = useState(false);
-
-  function returnResult(data: DataResponse): void {
-    setResult(data);
-  }
-
-  function loadStatusChange(status: boolean): void {
-    setIsLoad(status);
-  }
+  const [cardQty, setCardQty] = useState(10);
 
   function toggleTestError(): void {
     setTestError(!testError);
@@ -29,10 +22,15 @@ function App() {
   return (
     <>
       <header className="header">
-        <button className="button" onClick={toggleTestError}>
+        <button className="header_button" onClick={toggleTestError}>
           Do a crime!
         </button>
-        <Form loadStatusChange={loadStatusChange} returnResult={returnResult} />
+        <Form
+          cardQty={cardQty}
+          setCardQty={setCardQty}
+          setLoadStatus={setLoadStatus}
+          setResult={setResult}
+        />
       </header>
       <main className="main">
         <Result

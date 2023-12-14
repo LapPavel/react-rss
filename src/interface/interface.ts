@@ -1,10 +1,12 @@
 export interface FormProps {
-  loadStatusChange: (status: boolean) => void;
-  returnResult: (data: DataResponse) => void;
+  cardQty: number;
+  setCardQty: (qty: number) => void;
+  setLoadStatus: (status: boolean) => void;
+  setResult: (data: Starship[] | null) => void;
 }
 
 export interface ResultProps {
-  result: DataResponse | null;
+  result: Starship[] | null;
   isLoad: boolean;
   toggleTestError: () => void;
 }
@@ -34,9 +36,4 @@ export interface StarshipResponse {
   next?: string;
   previous?: string;
   results: Starship[];
-}
-
-export interface DataResponse {
-  data: Starship[];
-  count: number;
 }

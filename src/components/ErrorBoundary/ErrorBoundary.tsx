@@ -17,7 +17,7 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
       return (
         <div>
           <h1>Something went wrong.</h1>
-          <button className="button" onClick={this.reloadPage}>
+          <button className="header_button" onClick={this.reloadPage}>
             Reload page
           </button>
         </div>

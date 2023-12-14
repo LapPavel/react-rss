@@ -3,16 +3,21 @@ import { APIservice } from '../APIservice/APIservice';
 import { FormProps } from '../../interface/interface';
 import './Form.css';
 
-export default function Form({ loadStatusChange, returnResult }: FormProps) {
+export default function Form({
+  cardQty,
+  setCardQty,
+  setLoadStatus,
+  setResult,
+}: FormProps) {
   const [searchText, setSearchText] = React.useState(
     localStorage.getItem('search') || ''
   );
-  const cardQty = React.useRef(10);
+  //const cardQty = React.useRef(10);
 
   async function requestData(): Promise<void> {
-    const data = await APIservice.getData(searchText, cardQty.current, 1);
-    returnResult(data);
-    loadStatusChange(false);
+    const data = await APIservice.getData(searchText);
+    setResult(data);
+    setLoadStatus(false);
   }
 
   useEffect(() => {
@@ -26,14 +31,14 @@ export default function Form({ loadStatusChange, returnResult }: FormProps) {
     if (event.target.tagName === 'INPUT') {
       setSearchText(event.target.value);
     } else {
-      cardQty.current = +event.target.value;
+      setCardQty(+event.target.value);
       handleSubmit(event as React.FormEvent);
     }
   }
 
   async function handleSubmit(event: React.FormEvent): Promise<void> {
     event.preventDefault();
-    loadStatusChange(true);
+    setLoadStatus(true);
     localStorage.setItem('search', searchText);
     await requestData();
   }
@@ -50,11 +55,15 @@ export default function Form({ loadStatusChange, returnResult }: FormProps) {
           onChange={handleChange}
         />
       </label>
-      <input className="button search_button" type="submit" value="Search" />
+      <input
+        className="header_button search_button"
+        type="submit"
+        value="Search"
+      />
       <select
         name="qty"
         className="search_qty"
-        value={cardQty.current}
+        value={cardQty}
         onChange={handleChange}
       >
         <option>10</option>
