@@ -26,6 +26,7 @@ function App() {
           Do a crime!
         </button>
         <Form
+          isLoad={isLoad}
           cardQty={cardQty}
           setCardQty={setCardQty}
           setLoadStatus={setLoadStatus}

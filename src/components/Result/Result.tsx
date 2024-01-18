@@ -23,8 +23,8 @@ export default function Result({
     if (result.length === 0) {
       return <p>No results found</p>;
     }
-    const pages = Math.ceil(result.length / 10);
-    for (let i = 0; i < pages; i++) {}
+    // const pages = Math.ceil(result.length / 10);
+    // for (let i = 0; i < pages; i++) {}
     return (
       <div>
         <ul className="search_results">

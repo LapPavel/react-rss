@@ -1,4 +1,5 @@
 export interface FormProps {
+  isLoad: boolean;
   cardQty: number;
   setCardQty: (qty: number) => void;
   setLoadStatus: (status: boolean) => void;

@@ -4,6 +4,7 @@ import { FormProps } from '../../interface/interface';
 import './Form.css';
 
 export default function Form({
+  isLoad,
   cardQty,
   setCardQty,
   setLoadStatus,
@@ -13,11 +14,20 @@ export default function Form({
     localStorage.getItem('search') || ''
   );
   //const cardQty = React.useRef(10);
+  const controller = React.useRef(new AbortController());
+  const cancelled = React.useRef(false);
 
   async function requestData(): Promise<void> {
-    const data = await APIservice.getData(searchText);
-    setResult(data);
-    setLoadStatus(false);
+    controller.current = new AbortController();
+    const data = await APIservice.getData(
+      controller.current.signal,
+      searchText
+    );
+    if (!cancelled.current) {
+      setResult(data);
+      setLoadStatus(false);
+    }
+    cancelled.current = false;
   }
 
   useEffect(() => {
@@ -38,8 +48,12 @@ export default function Form({
 
   async function handleSubmit(event: React.FormEvent): Promise<void> {
     event.preventDefault();
-    setLoadStatus(true);
     localStorage.setItem('search', searchText);
+    if (isLoad) {
+      controller.current.abort();
+      cancelled.current = true;
+    }
+    setLoadStatus(true);
     await requestData();
   }
 
