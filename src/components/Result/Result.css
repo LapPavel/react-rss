@@ -5,6 +5,10 @@
   padding: 0;
   margin: 0;
   list-style: none;
+  @media (width < 675px) {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    font-size: 0.8rem;
+  }
 }
 
 .search_result {

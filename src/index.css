@@ -5,6 +5,9 @@
   color: #ffffff;
   padding: 0 2rem;
   background-color: #39424d;
+  @media  (width < 855px) {
+      padding: 0 1rem;
+  }
 }
 
 body {
